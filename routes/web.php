@@ -17,4 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/landing', 'PageController@landing')->name('landing');
+Route::get('/dash', 'PageController@dashboard')->name('dashboard');
+Route::get('/dash/transfer', 'PageController@changeFunds')->name('transferMoney');
+
+
+
+//Route::get('/home', 'HomeController@index')->name('home');
