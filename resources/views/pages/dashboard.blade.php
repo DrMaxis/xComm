@@ -27,9 +27,18 @@
                             </form>
                     </div>
 
+
+                    @foreach($account as $data)
+                    <div>
+
+                    <a href="{{URL::route('viewAccount', ['id' => $data->account_id])}}">Account info</a>
+
                 </div>
 
-                {{$account}}
+                {{$data}}
+
+                @endforeach
+            </div>
             </div>
                 </div>
             </div>

@@ -63,9 +63,13 @@ $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 
 
 
-public function viewAccount(Account $account) {
+public function viewAccount($id) {
 
-$accountID = Account::find('account_id');
+$account = Account::find($id);
+
+//$accountID = Account::where('account_id', '=', $id);
+
+/* $accountID = Account::find('account_id');
 $aid = $accountID;
 
     $headers = [
@@ -81,11 +85,13 @@ $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
         'headers' => $headers
     ]);
 
-    $response = $client->request('GET','accounts/'. $aid)->send();
+    $response = $client->request('GET','accounts/')->send();
     $data = $response-getBody()->getContents();
     $account = json_decode($data, true);
-
-    return view('api.viewAccount')->with('account', $account);
+ */
+    //return view('api.viewAccount')->with('account', $account);
+    return $account;
+    
 
 
 
