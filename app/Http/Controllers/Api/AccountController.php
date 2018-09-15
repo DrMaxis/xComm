@@ -99,20 +99,50 @@ $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 }
 
 public function deleteAccount($id) {
+
+    
+    $accounts = Account::find($id);
+
+    // Check for correct user
+    if(auth()->user()->id !== $accounts->user_id){
+        return redirect('/landing')->with('error', 'Unauthorized Page');
+    }
+    
+    
+    $accounts->delete();
+    return redirect('dash/accounts')->with('success', 'Account Deleted');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    /*  $account = User::find(id)->accounts;
     $accountID = Account::find('account_id');
     $aid = $accountID; */
-    $account = Account::find($id);
-    $accountID = $account->account_id;
-
+    //$account = Account::find($id);
+    //$accountID = $account->account_id;
+/* 
     $client = new Client;
-    $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
-    $response = $client->delete($url.'accounts',
+    $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/accounts/'.$id;
+    $response = $client->delete($url,
     ['headers' => [
         'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
         'Content-Type' => 'application/x-www-form-urlencoded',
         'Accept' => 'application/json',
-        ], 
+        ],
+        
     
     ]);
 
@@ -122,9 +152,9 @@ public function deleteAccount($id) {
     if($status != 200) {
         return response()->json(['error' => $reason], $status );
     } else {
-        return view('pages.dashboard')->with(json(['message' => "Successfully Deleted the account"], 200));
+        return redirect('dash.showAllAccounts')->with(json(['message' => "Successfully Deleted the account"], 200));
     }
-    
+     */
 
 
 }
