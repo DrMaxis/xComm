@@ -24,3 +24,5 @@ A User can then preform:
 
 GNU General Public License v3.0
 - Copyright [StudioUnwanted](http://uwanted.kr).
+- Built with [Laravel and Vanilla Js](https://laravel.com)
+
