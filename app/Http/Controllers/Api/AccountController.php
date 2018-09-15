@@ -188,11 +188,20 @@ public function addFunds(Request $request) {
 
     $serviceName = $request['service'];
     $accountID = $request['account_id'];
-    $service = new Service;
+
+    $post = Post::create([
+        'name' => $serviceName,
+        'balance' => request('balance'),
+        'account_id' => $accountID
+        
+    ]);
+
+
+    /* $service = new Service;
     $service->name = $serviceName;
     $service->balance = $request->input('balance');
     $service->account_id = $accountID;
-    $account->save();
+    $service->save(); */
 
     
     return redirect()->back();
