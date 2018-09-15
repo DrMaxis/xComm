@@ -23,3 +23,4 @@ A User can then preform:
 ## License
 
 GNU General Public License v3.0
+- -Copyright [StudioUnwanted](http://uwanted.kr).
