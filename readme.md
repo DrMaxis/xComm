@@ -23,6 +23,6 @@ A User can then preform:
 ## License
 
 GNU General Public License v3.0
-- Copyright [StudioUnwanted](http://uwanted.kr).
+- Copyright [StudioUnwanted](http://unwanted.kr).
 - Built with [Laravel and Vanilla Js](https://laravel.com)
 
