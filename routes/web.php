@@ -75,14 +75,17 @@ Route::get('/dash/transfer', 'Api\TransactionController@changeFunds')->name('tra
 
 //Get account info by id
 Route::get('/account/{id}', 'Api\AccountController@viewAccount')->name('viewAccount'); //    //---------- // done
+
+//Send Funds from account
+Route::post('/account', 'Api\AccountController@addFunds')->name('addFunds');
+
 //Delete an Account
 Route::delete('/account/{id}/delete', 'Api\AccountController@deleteAccount')->name('deleteAccount'); //    //---------- // done
 
 //Update Account Balance
 Route::patch('/account/{id}', 'Api\AccountController@updateBalance')->name('updateAccount'); 
 
-//Send Funds from account
-Route::post('/send','Api\AccountContrller@sendFunds')->name('sendFunds');
+
 
 
 

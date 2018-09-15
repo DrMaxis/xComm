@@ -8,11 +8,9 @@ class Transaction extends Model
 {
     protected $table = 'transactions';
 
+    protected $fillable = ['amount','service', 'description', 'status', 'transaction_id',  'type',  ];
 
-    public function services() {
-        return $this->hasMany('App\Service');
-
-    }
+   
 
     public function accounts() {
         return $this->belongsTo('App\Account');

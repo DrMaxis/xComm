@@ -17,10 +17,15 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->string('transaction_id');
             $table->integer('account_id');
+            $table->integer('service');
+            $table->integer('amount');
+            $table->string('type');
+            $table->string('description');
+            $table->string('status');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

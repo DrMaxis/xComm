@@ -13,44 +13,52 @@ use App\Service;
 
 
 
+
 class AccountController extends Controller
 {
 
      
 
  
-public function createAccount() {
-/* 
-$headers = [
-        'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
-        'Content-Type' => 'application/x-www-form-urlencoded',
-        'Accept' => 'application/json'
-    ];
-$apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/'; */
-
-$url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
-    $client = new Client;
-
-    $response = $client->post($url.'accounts',
-    ['headers' => [
-        'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
-        'Content-Type' => 'application/x-www-form-urlencoded',
-        'Accept' => 'application/json',
-        ], 
-    
-    ]);
-    $status= $response->getStatusCode();
-    
-    if($status != 200) {
-        return view('pages.dashboard')->with('error', "error".$status);
-    } else {
-    
-    return redirect('dash.showAllAccounts')->with('success', 'Account Deleted');
-
-    }
-
-    
-} 
+    public function createAccount() {
+        /* 
+        $headers = [
+                'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json'
+            ];
+        $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/'; */
+        
+        $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
+            $client = new Client;
+        
+            $response = $client->post($url.'accounts',
+            ['headers' => [
+                'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+                ], 
+            
+            ]);
+        
+            $result = json_decode($response->getBody()->getContents());
+            $raw = $result;
+            $status= $response->getStatusCode();
+            
+            if($status != 200) {
+                return view('pages.dashboard')->with('error', "error".$status);
+            } else {
+            $account = new Account;
+            $account->account_id = $result->id;
+            $account->balance = $result->balance;
+            $account->user_id = auth()->user()->id;
+            $account->save();
+            return view('pages.dashboard')->with('account', $account);
+        
+            }
+        
+            
+        }
 
 
 
@@ -59,12 +67,14 @@ $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 public function viewAccount($id) {
 $account = Account::find($id);
 
+
 // Check for correct user
 if(auth()->user()->id !==$account->user_id){
     return redirect('/posts')->with('error', 'Unauthorized Page');
 }
 
 return view('dash.account')->with('account', $account);
+//dd(compact('account', 'accountService'));
 
 
 //$accountID = Account::where('account_id', '=', $id);
@@ -110,7 +120,7 @@ public function deleteAccount($id) {
     
     
     $accounts->delete();
-    return redirect('dash/accounts')->with('success', 'Account Deleted');
+    return redirect('dash/account'.$id)->with('success', 'Account Deleted');
 
 
 
@@ -169,4 +179,26 @@ public function deleteAccount($id) {
 } */
 
 
+
+public function addFunds(Request $request) {
+
+    $this->validate($request, [
+        'balance' => 'required'
+    ]);
+
+    $serviceName = $request['service'];
+    $accountID = $request['account_id'];
+    $service = new Service;
+    $service->name = $serviceName;
+    $service->balance = $request->input('balance');
+    $service->account_id = $accountID;
+    $account->save();
+
+    
+    return redirect()->back();
 }
+
+
+
+}
+

@@ -16,7 +16,12 @@ class Account extends Model
     }
 
     public function transactions() {
-        return $this->hasMany('App\Transactions');
+        return $this->hasMany('App\Transaction');
     }
 
+
+    
+    public function services() {
+        return $this->hasMany('App\Service', 'name', 'balance','id', 'account_id');
+    }
 }
