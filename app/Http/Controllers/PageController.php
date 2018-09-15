@@ -12,10 +12,19 @@ use App\Service;
 
 class PageController extends Controller
 {
-    /* Route::get('/landing', 'PageController@landing')->name('landing');
-Route::get('/dash', 'PageController@dashboard')->name('dashboard');
-Route::get('/dash/transfer', 'PageController@changeFunds')->name('transferMoney'); */
 
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['landing']]);
+    }
+
+
+  
 
 public function landing() {
 
@@ -24,14 +33,7 @@ public function landing() {
 }
 
 
-public function dashboard() {
-    $account = Account::all();
-    return view('pages.dashboard')->with('account', $account);
-}
 
-public function changeFunds() {
-    return view('pages.transfer');
 
-}
 
 }

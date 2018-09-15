@@ -8,8 +8,8 @@
 @foreach($account as $information)
 <div>
 
-<p>{{$information->account_id}}</p>
-<p>{{$information->balance}}</p>
+<p>{{$information['account_id']}}</p>
+<p>{{$information['balance']}}</p>
 
 </div>
 @endforeach

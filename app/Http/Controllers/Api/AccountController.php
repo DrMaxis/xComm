@@ -39,20 +39,13 @@ $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
         ], 
     
     ]);
-
-    $result = json_decode($response->getBody()->getContents());
-    $raw = $result;
     $status= $response->getStatusCode();
     
     if($status != 200) {
         return view('pages.dashboard')->with('error', "error".$status);
     } else {
-    $account = new Account;
-    $account->account_id = $result->id;
-    $account->balance = $result->balance;
-    $account->user_id = auth()->user()->id;
-    $account->save();
-    return view('pages.dashboard')->with('account', $account);
+    
+    return redirect('dash.showAllAccounts')->with('success', 'Account Deleted');
 
     }
 
@@ -64,12 +57,19 @@ $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 
 
 public function viewAccount($id) {
-
 $account = Account::find($id);
 
-//$accountID = Account::where('account_id', '=', $id);
+// Check for correct user
+if(auth()->user()->id !==$account->user_id){
+    return redirect('/posts')->with('error', 'Unauthorized Page');
+}
 
-/* $accountID = Account::find('account_id');
+return view('dash.account')->with('account', $account);
+
+
+//$accountID = Account::where('account_id', '=', $id);
+/* 
+$accountID = Account::find('account_id');
 $aid = $accountID;
 
     $headers = [
@@ -88,9 +88,9 @@ $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
     $response = $client->request('GET','accounts/')->send();
     $data = $response-getBody()->getContents();
     $account = json_decode($data, true);
- */
+
     //return view('api.viewAccount')->with('account', $account);
-    return $account;
+    dd($account['account_id']); */
     
 
 
@@ -99,26 +99,23 @@ $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 }
 
 public function deleteAccount($id) {
-    $account = User::find(id)->accounts;
+   /*  $account = User::find(id)->accounts;
     $accountID = Account::find('account_id');
-    $aid = $accountID;
+    $aid = $accountID; */
+    $account = Account::find($id);
+    $accountID = $account->account_id;
 
-
-
-    $headers = [
+    $client = new Client;
+    $url = 'http://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
+    $response = $client->delete($url.'accounts',
+    ['headers' => [
         'x-api-key' => 'Y5t60NkuJ7tLWFnoxc5z',
-        'Accept' => 'application/json'
-    ];
-
-$apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
-
-
-    $client = new Client([
-        'base_uri' => $apiSource,
-        'headers' => $headers
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'Accept' => 'application/json',
+        ], 
+    
     ]);
 
-    $response = $client->request('DELETE','accounts/'. $aid)->send();
     Account::where('id', $id)->delete();
     $status = $client->getStatusCode();
     $reason = $client->getReasonPhrase();
@@ -132,14 +129,14 @@ $apiSource = 'https://us-central1-incomm-hackathon-api.cloudfunctions.net/api/';
 
 }
 
-public function showAccounts() {
+/* public function showAccounts() {
 
     $accounts = User::find(id)->accounts;
 
 
     return view('pages.accounts')->with('accounts', $accounts);
 
-}
+} */
 
 
 }

@@ -1,4 +1,5 @@
 <!doctype html>
+@extends('layouts.app')
 <html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
@@ -76,6 +77,7 @@
                     @endauth
                 </div>
             @endif
+
 
             <div class="content">
                 <div class="title m-b-md">
