@@ -28,6 +28,12 @@ public function index() {
     return view('dash.index');
 }
 
+public function showAllServices() {
+
+    $user_id = auth()->user()->id;
+    $user = User::find($user_id);
+
+}
 
 public function showAllAccounts() {
  
